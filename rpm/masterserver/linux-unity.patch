@@ -1,0 +1,180 @@
+Binary files server-clean/Common/Log.o and server/Common/Log.o differ
+Binary files server-clean/Common/Utility.o and server/Common/Utility.o differ
+diff -ruPN server-clean/Makefile server/Makefile
+--- server-clean/Makefile	2011-03-02 05:08:24.000000000 -0500
++++ server/Makefile	2014-11-02 19:41:25.477000000 -0500
+@@ -3,7 +3,7 @@
+ 
+ CC=g++
+ DEFINES = -DUNITY_MASTERSERVER
+-CFLAGS=-Wall -lpthread $(DEFINES)
++CFLAGS=-Wall -pthread $(DEFINES)
+ DEBUG=-ggdb
+ INCLUDE = .
+ PROGRAMNAME = MasterServer
+Binary files server-clean/MasterServer and server/MasterServer differ
+diff -ruPN server-clean/MasterServer.cpp server/MasterServer.cpp
+--- server-clean/MasterServer.cpp	2011-03-02 05:08:23.000000000 -0500
++++ server/MasterServer.cpp	2014-11-02 19:40:45.784000000 -0500
+@@ -20,6 +20,7 @@
+ #include <windows.h>
+ #else
+ #include <stdlib.h>
++#include <unistd.h>
+ #endif
+ 
+ LightweightDatabaseServer databaseServer;
+Binary files server-clean/RakNet/Sources/BigInt.o and server/RakNet/Sources/BigInt.o differ
+Binary files server-clean/RakNet/Sources/BitStream_NoTemplate.o and server/RakNet/Sources/BitStream_NoTemplate.o differ
+Binary files server-clean/RakNet/Sources/BitStream.o and server/RakNet/Sources/BitStream.o differ
+Binary files server-clean/RakNet/Sources/CCRakNetUDT.o and server/RakNet/Sources/CCRakNetUDT.o differ
+Binary files server-clean/RakNet/Sources/CheckSum.o and server/RakNet/Sources/CheckSum.o differ
+Binary files server-clean/RakNet/Sources/ConsoleServer.o and server/RakNet/Sources/ConsoleServer.o differ
+Binary files server-clean/RakNet/Sources/DataBlockEncryptor.o and server/RakNet/Sources/DataBlockEncryptor.o differ
+Binary files server-clean/RakNet/Sources/DataCompressor.o and server/RakNet/Sources/DataCompressor.o differ
+Binary files server-clean/RakNet/Sources/DirectoryDeltaTransfer.o and server/RakNet/Sources/DirectoryDeltaTransfer.o differ
+diff -ruPN server-clean/RakNet/Sources/DS_BinarySearchTree.h server/RakNet/Sources/DS_BinarySearchTree.h
+--- server-clean/RakNet/Sources/DS_BinarySearchTree.h	2011-03-02 05:08:25.000000000 -0500
++++ server/RakNet/Sources/DS_BinarySearchTree.h	2014-11-02 19:43:53.485000000 -0500
+@@ -166,12 +166,12 @@
+ 			if ( current->left == 0 )
+ 				left_height = 0;
+ 			else
+-				left_height = Height( current->left );
++				left_height = this->Height( current->left );
+ 				
+ 			if ( current->right == 0 )
+ 				right_height = 0;
+ 			else
+-				right_height = Height( current->right );
++				right_height = this->Height( current->right );
+ 				
+ 			if ( right_height - left_height == 2 )
+ 			{
+@@ -199,7 +199,7 @@
+ 			if ( current == this->root )
+ 				break;
+ 				
+-			current = FindParent( *( current->item ) );
++			current = this->FindParent( *( current->item ) );
+ 			
+ 		}
+ 	}
+@@ -226,7 +226,7 @@
+ 		if ( A == 0 )
+ 			return false;
+ 			
+-		return Height( A->right ) > Height( A->left );
++		return this->Height( A->right ) > this->Height( A->left );
+ 	}
+ 	
+ 	template <class BinarySearchTreeType>
+@@ -235,7 +235,7 @@
+ 		if ( A == 0 )
+ 			return false;
+ 			
+-		return Height( A->left ) > Height( A->right );
++		return this->Height( A->left ) > this->Height( A->right );
+ 	}
+ 	
+ 	template <class BinarySearchTreeType>
+@@ -272,8 +272,8 @@
+ 		
+ 		*/
+ 		
+-		B = FindParent( *( C->item ) );
+-		A = FindParent( *( B->item ) );
++		B = this->FindParent( *( C->item ) );
++		A = this->FindParent( *( B->item ) );
+ 		D = C->right;
+ 		
+ 		if ( A )
+@@ -336,8 +336,8 @@
+ 		
+ 		*/
+ 		
+-		B = FindParent( *( C->item ) );
+-		A = FindParent( *( B->item ) );
++		B = this->FindParent( *( C->item ) );
++		A = this->FindParent( *( B->item ) );
+ 		D = C->left;
+ 		
+ 		if ( A )
+@@ -830,7 +830,7 @@
+ 					else
+ 					{
+ 						//  Otherwise I've done everything I can.  Move up the tree one node
+-						parent = FindParent( *( current->item ) );
++						parent = this->FindParent( *( current->item ) );
+ 						current = parent;
+ 						just_printed = false;
+ 					}
+@@ -887,7 +887,7 @@
+ 				else
+ 				{
+ 					//  Otherwise I've done everything I can.  Move up the tree one node
+-					parent = FindParent( *( current->item ) );
++					parent = this->FindParent( *( current->item ) );
+ 					current = parent;
+ 				}
+ 		}
+@@ -1106,7 +1106,7 @@
+ 					else // leaf
+ 					{
+ 						// Not root node so must have a parent
+-						parent = FindParent( *( current->item ) );
++						parent = this->FindParent( *( current->item ) );
+ 						
+ 						if ( ( parent->left ) == current )
+ 							parent->left = 0;
+Binary files server-clean/RakNet/Sources/DS_BytePool.o and server/RakNet/Sources/DS_BytePool.o differ
+Binary files server-clean/RakNet/Sources/DS_ByteQueue.o and server/RakNet/Sources/DS_ByteQueue.o differ
+Binary files server-clean/RakNet/Sources/DS_HuffmanEncodingTree.o and server/RakNet/Sources/DS_HuffmanEncodingTree.o differ
+Binary files server-clean/RakNet/Sources/DS_Table.o and server/RakNet/Sources/DS_Table.o differ
+Binary files server-clean/RakNet/Sources/EmailSender.o and server/RakNet/Sources/EmailSender.o differ
+Binary files server-clean/RakNet/Sources/EncodeClassName.o and server/RakNet/Sources/EncodeClassName.o differ
+Binary files server-clean/RakNet/Sources/ExtendedOverlappedPool.o and server/RakNet/Sources/ExtendedOverlappedPool.o differ
+Binary files server-clean/RakNet/Sources/FileList.o and server/RakNet/Sources/FileList.o differ
+Binary files server-clean/RakNet/Sources/FileListTransfer.o and server/RakNet/Sources/FileListTransfer.o differ
+Binary files server-clean/RakNet/Sources/FileOperations.o and server/RakNet/Sources/FileOperations.o differ
+Binary files server-clean/RakNet/Sources/_FindFirst.o and server/RakNet/Sources/_FindFirst.o differ
+Binary files server-clean/RakNet/Sources/GetTime.o and server/RakNet/Sources/GetTime.o differ
+Binary files server-clean/RakNet/Sources/Itoa.o and server/RakNet/Sources/Itoa.o differ
+Binary files server-clean/RakNet/Sources/LightweightDatabaseCommon.o and server/RakNet/Sources/LightweightDatabaseCommon.o differ
+Binary files server-clean/RakNet/Sources/LightweightDatabaseServer.o and server/RakNet/Sources/LightweightDatabaseServer.o differ
+Binary files server-clean/RakNet/Sources/LinuxStrings.o and server/RakNet/Sources/LinuxStrings.o differ
+Binary files server-clean/RakNet/Sources/MessageFilter.o and server/RakNet/Sources/MessageFilter.o differ
+Binary files server-clean/RakNet/Sources/NetworkIDManager.o and server/RakNet/Sources/NetworkIDManager.o differ
+Binary files server-clean/RakNet/Sources/NetworkIDObject.o and server/RakNet/Sources/NetworkIDObject.o differ
+Binary files server-clean/RakNet/Sources/PacketFileLogger.o and server/RakNet/Sources/PacketFileLogger.o differ
+Binary files server-clean/RakNet/Sources/PacketLogger.o and server/RakNet/Sources/PacketLogger.o differ
+Binary files server-clean/RakNet/Sources/PluginInterface2.o and server/RakNet/Sources/PluginInterface2.o differ
+Binary files server-clean/RakNet/Sources/RakMemoryOverride.o and server/RakNet/Sources/RakMemoryOverride.o differ
+Binary files server-clean/RakNet/Sources/RakNetCommandParser.o and server/RakNet/Sources/RakNetCommandParser.o differ
+Binary files server-clean/RakNet/Sources/RakNetSocket.o and server/RakNet/Sources/RakNetSocket.o differ
+Binary files server-clean/RakNet/Sources/RakNetStatistics.o and server/RakNet/Sources/RakNetStatistics.o differ
+Binary files server-clean/RakNet/Sources/RakNetTransport.o and server/RakNet/Sources/RakNetTransport.o differ
+Binary files server-clean/RakNet/Sources/RakNetTypes.o and server/RakNet/Sources/RakNetTypes.o differ
+Binary files server-clean/RakNet/Sources/RakNetworkFactory.o and server/RakNet/Sources/RakNetworkFactory.o differ
+Binary files server-clean/RakNet/Sources/RakPeer.o and server/RakNet/Sources/RakPeer.o differ
+Binary files server-clean/RakNet/Sources/RakSleep.o and server/RakNet/Sources/RakSleep.o differ
+Binary files server-clean/RakNet/Sources/RakString.o and server/RakNet/Sources/RakString.o differ
+Binary files server-clean/RakNet/Sources/RakThread.o and server/RakNet/Sources/RakThread.o differ
+Binary files server-clean/RakNet/Sources/Rand.o and server/RakNet/Sources/Rand.o differ
+Binary files server-clean/RakNet/Sources/ReliabilityLayer.o and server/RakNet/Sources/ReliabilityLayer.o differ
+Binary files server-clean/RakNet/Sources/rijndael.o and server/RakNet/Sources/rijndael.o differ
+Binary files server-clean/RakNet/Sources/Router.o and server/RakNet/Sources/Router.o differ
+Binary files server-clean/RakNet/Sources/RPCMap.o and server/RakNet/Sources/RPCMap.o differ
+Binary files server-clean/RakNet/Sources/RSACrypt.o and server/RakNet/Sources/RSACrypt.o differ
+Binary files server-clean/RakNet/Sources/SHA1.o and server/RakNet/Sources/SHA1.o differ
+Binary files server-clean/RakNet/Sources/SignaledEvent.o and server/RakNet/Sources/SignaledEvent.o differ
+Binary files server-clean/RakNet/Sources/SimpleMutex.o and server/RakNet/Sources/SimpleMutex.o differ
+Binary files server-clean/RakNet/Sources/SocketLayer.o and server/RakNet/Sources/SocketLayer.o differ
+Binary files server-clean/RakNet/Sources/StringCompressor.o and server/RakNet/Sources/StringCompressor.o differ
+Binary files server-clean/RakNet/Sources/StringTable.o and server/RakNet/Sources/StringTable.o differ
+Binary files server-clean/RakNet/Sources/SuperFastHash.o and server/RakNet/Sources/SuperFastHash.o differ
+Binary files server-clean/RakNet/Sources/SystemAddressList.o and server/RakNet/Sources/SystemAddressList.o differ
+Binary files server-clean/RakNet/Sources/TableSerializer.o and server/RakNet/Sources/TableSerializer.o differ
+Binary files server-clean/RakNet/Sources/TCPInterface.o and server/RakNet/Sources/TCPInterface.o differ
+Binary files server-clean/RakNet/Sources/TelnetTransport.o and server/RakNet/Sources/TelnetTransport.o differ
+Binary files server-clean/RakNet/Sources/ThreadsafePacketLogger.o and server/RakNet/Sources/ThreadsafePacketLogger.o differ
